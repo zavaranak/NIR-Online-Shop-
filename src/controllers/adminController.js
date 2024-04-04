@@ -3,15 +3,29 @@ const accounts = require('../models/UserAccount');
 const products = require('../models/Products')
 class AdminController{
     async AdminPage(req,res){
-        accounts.findById(req.session.userID).then(account=>{
-        if (account.username=="admin")  res.render('admin/admin.pug')
-        else  res.redirect(303,'/home')})
+        await accounts.findById(req.session.userID).then(account=>{
+        if (account.username=="admin") res.render('admin/admin.pug')
+        else  res.redirect(303,'/home');})
     }
-    async ManageProducts(req,res){
+    ManageProducts= async(req,res)=>{
+        try{
+        let auth = false;
+        await accounts.findById(req.session.userID).then(account=>{
+        if (account.username=="admin") auth = true;
+        else  res.redirect(303,'/home');} )
+
+        if (auth){
         await products.find({}).then(products=>{
-            res.render('admin/adminProducts.pug',{products: products})
-        });
+        res.render('admin/adminProducts.pug',{products: products})})
+        }
+        else  res.redirect(303,'/home');
+        }
+        catch(err){
+            console.log(err);
+            res.redirect(303,'/home');
+        }
     }
+
     ManageClients(req,res){
         res.render('admin/adminClients.pug')
     }
@@ -31,6 +45,19 @@ class AdminController{
         products.findById(req.query.productID).then(product=>{
             res.render('admin/adminEditProduct',{product:product})
         })
+    }
+    Authenticate = async(id)=>{
+        if (id) {
+            try {
+                accounts.findById(id).then(account=>{
+                    console.log("Athenticate:", account.username);
+                    return account.username == "admin";})
+            } catch (error) {
+                console.error(error);
+                return false;
+            }
+        }
+        return false;
     }
 }
 
