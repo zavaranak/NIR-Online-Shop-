@@ -2,6 +2,10 @@ extends ../layout/layout.pug
 block content
     title Manage Products
     .container    
+        .search-box
+            label(style="" for="keyword") 
+                b Search item:
+            input(style="width:200px" type="text" name="keyword")
         .container-child 
             each product in products            
                 .productView

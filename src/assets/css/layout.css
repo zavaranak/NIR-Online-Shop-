@@ -197,7 +197,7 @@ input[type="text"], input[type="password"] {
 .productView{
     display: inline-flex;
     flex-direction: column;
-    width: 23%;
+    width: 230px;
     color:#000000;
     background: #EFB9CB;
     margin: 5px; /* Optional: Adds some margin around each product */
@@ -207,6 +207,27 @@ input[type="text"], input[type="password"] {
     justify-content: center;
     align-items: center;  
 }
+.productView:hover{
+    color:#ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
+}
 .productView img{
+    height:200px;
+    width:200px;
     border-radius: 5%;
+}
+.search-box{
+	padding-left: 	20px;
+	width: 			100%;
+	height: 		min-content;
+	display: 		flex;
+	align-items:	center;
+    justify-content: center;
+
+}
+.search-box input{
+	color: 			#06283D;
+	font-size: 		20px;
+    height: min-content;
+    margin-left:    60px;
 }

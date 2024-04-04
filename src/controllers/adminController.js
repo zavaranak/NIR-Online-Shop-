@@ -13,7 +13,6 @@ class AdminController{
         await accounts.findById(req.session.userID).then(account=>{
         if (account.username=="admin") auth = true;
         else  res.redirect(303,'/home');} )
-
         if (auth){
         await products.find({}).then(products=>{
         res.render('admin/adminProducts.pug',{products: products})})
@@ -25,7 +24,6 @@ class AdminController{
             res.redirect(303,'/home');
         }
     }
-
     ManageClients(req,res){
         res.render('admin/adminClients.pug')
     }
@@ -60,5 +58,4 @@ class AdminController{
         return false;
     }
 }
-
 module.exports = new AdminController();
