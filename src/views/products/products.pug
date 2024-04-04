@@ -1,0 +1,17 @@
+extends ../layout/layout.pug
+block content
+    title Manage Products
+    .container    
+        .container-child 
+            each product in products            
+                .productView
+                    img(src=product.productThumpnail, alt="")
+                    h3= product.productName
+                    ul 
+                        li Price:
+                            b= product.productPrice
+                                b $ 
+                    button.addToCart Add to cart
+            else
+                .ProductView 
+                    b There are no values

@@ -1,0 +1,38 @@
+extends ../layout/layout.pug
+block content
+    .log-out 
+        form(action="/myprofile/logout", method="get")
+            button(type= "submit") Log out
+    .sign-form      
+        h1= userdata.username 
+        form(action="/myprofile/update-profile", method="post") 
+            input(type="text",style="display:none", name="userID", value=userdata._id)
+            label(for="firstName") First Name: 
+                i= userdata.firstName
+            input(style="display:none", type="text", name="firstName",value=userdata.firstName)
+            label(for="lastName") Last Name: 
+                i= userdata.lastName
+            input(style="display:none", type="text" name="lastName",value=userdata.lastName)
+            label(for='address') Adress: 
+                i= userdata.address
+            input(style="display:none", type="text" name="address",value=userdata.address)
+            button#editButton(type="button") Edit Profile
+            button#saveButton(style="display:none",type="submit") Update Profile
+            button#cancelButton(style="display:none",type="button") Cancel
+    script.
+        const buttonSave = document.querySelector('#saveButton');
+        const buttonEdit = document.querySelector('#editButton');
+        const inputs = document.querySelectorAll('input');
+        const buttonCancel = document.querySelector('#cancelButton');
+        buttonEdit.addEventListener('click',()=>{
+            for(i=1;i<inputs.length;i++) inputs[i].style.display = "block";
+            buttonEdit.style.display="none";
+            buttonSave.style.display ="block";
+            buttonCancel.style.display = "block";
+        })
+        buttonCancel.addEventListener('click',()=>{
+            for(i=1;i<inputs.length;i++) inputs[i].style.display ="none";
+            buttonEdit.style.display="block";
+            buttonSave.style.display="none";
+            buttonCancel.style.display= "none";
+        })   

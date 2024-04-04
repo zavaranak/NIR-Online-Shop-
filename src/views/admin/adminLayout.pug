@@ -1,0 +1,29 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='/css/layout.css')    
+    script(src="/script/script.js") 
+body 
+    .navbar
+        .logo
+            img(class='logoImg', src='/img/logo.png', alt='brandLogo')
+        div
+            a(href='/home') 
+                h1 Brand Name 
+        .navbar-items
+            a(href='/admin/products') 
+                b Manage Products
+            a(href='/admin/clients') 
+                b Manage Client
+            a(href='/admin/news') 
+                b Manange News
+            a(href='/admin/analysis') 
+                b Sale Analysis
+            a(href='/myprofile/logout')
+                b Log out
+                  
+    block content
+    title= title
+
+

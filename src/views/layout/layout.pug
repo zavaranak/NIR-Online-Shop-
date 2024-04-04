@@ -1,0 +1,28 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='/css/layout.css')    
+    script(src="/script/script.js") 
+body 
+    .navbar
+        .logo
+            img(class='logoImg', src='/img/logo.png', alt='brandLogo')
+        div
+            a(href='/home') 
+                h1 Brand Name 
+        .navbar-items
+            a(href='/products') 
+                b Products
+            a(href='/news') 
+                b News
+            a(href='/about-us') 
+                b About Us
+            a#logIn(href='/myprofile') 
+                b My Profile
+            a(href='/cart')
+                b Cart 
+    block content
+    title= title
+
+

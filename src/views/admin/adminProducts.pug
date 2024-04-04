@@ -1,0 +1,92 @@
+extends ../admin/adminLayout.pug
+block content
+    title Manage Products
+    .container    
+        .container-child 
+            each product in products            
+                .productView
+                    img(src=product.productThumpnail, alt="")
+                    h3= product.productName
+                    ul 
+                        li Price:
+                            b= product.productPrice
+                                b $ 
+                        li Sale(%):
+                            b= product.productSalex
+                    
+                    button.edit(productID=product._id) Edit Product
+            else
+                .ProductView 
+                    b There are no values 
+        button#addProduct Add new product
+    #addProductForm.sign-form(style="display:none;")
+        h2 Add new product
+        form#signInForm(method="post", action='/admin/add-product')
+            label(for='productname') Product Name:
+            input(type='text' name='productname' required='')
+            label(for='productcode') Product Code:
+            input(type='text' name='productcode' required='')
+            div(style="display:flex")
+                label(style="width:200px;self-align:left",for='productprice') Product Price:
+                input(type='number' name='productprice' required='')
+            div(style="display:flex;margin-top:20px;")
+                label(style="width:200px",for='productthumpnail') Product Thumpnail:
+                input(type='file' name='productthumpnail' required='')
+            label(for='productdescription') Product Description:
+            input(style='height:50px',type='text' name='productdescription' required='')
+            button(type='submit') Add Product
+            button#cancelAdd(type='button') Cancel        
+    #editProductForm.sign-form(style="display:none;")
+        button#cancelEdit(type='button') Cancel  
+        //-     h1= "Edit product: " + product.productName
+        //-     h2= heading 
+        //-     form#signInForm(method="post", action='')
+        //-             label(for='productname') Product Name:
+        //-             input(type='text' name='productname' required='' value=product.productName)
+        //-             label(for='productcode') Product Code:
+        //-             input(type='text' name='productcode' required='' value=product.productcode)
+        //-             div(style="display:flex")
+        //-                 label(style="width:200px;self-align:left",for='productprice') Product Price:
+        //-                 input(type='number' name='productprice' required='' value=product.productPrice)
+        //-             div(style="display:flex;margin-top:20px;")
+        //-                 label(style="width:200px",for='productthumpnail') Product Thumpnail:
+        //-                 input(type='file' name='productthumpnail' required='' value = product.productThumpnail)
+        //-             label(for='productdescripttion') Product Description:
+        //-             input(style='height:50px',type='text' name='productdescription' required='' value= product.productDescription)
+        //-             button(type='submit') Add Product
+        //-             button#cancel(type='button') Cancel   
+    script.
+        const container = document.querySelector('.container')
+        const addProductForm = document.querySelector('#addProductForm');
+        const addButton = document.querySelector('#addProduct');
+        const cancelAddingButton = document.querySelector('#cancelAdd');
+        const cancelEditingButton = document.querySelector('#cancelEdit');
+        const editButtons = document.querySelectorAll('.edit');
+        const editForm = document.querySelector('#editProductForm');
+        
+        editForm.addEventListener('click',(event)=>event.stopPropagation())
+        addButton.style.margin="20px";
+        addButton.addEventListener('click',()=>{
+            addProductForm.style.display="flex";
+            container.style.opacity = "30%";
+        })
+        cancelAddingButton.addEventListener('click',()=>{
+            addProductForm.style.display="none";
+            container.style.opacity = "100%";
+        })
+        cancelEditingButton.addEventListener('click',()=>{
+            editForm.style.display="none";
+            container.style.opacity = "100%"
+        })
+        for(i=0;i<editButtons.length;i++){
+        editButtons[i].addEventListener('click',(event)=>{
+            event.stopPropagation();
+            editForm.style.display = "flex";
+            container.style.opacity = "30%";
+            })}
+
+
+
+
+
+    
