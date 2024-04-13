@@ -218,16 +218,17 @@ input[type="text"], input[type="password"] {
 }
 .search-box{
 	padding-left: 	20px;
-	width: 			100%;
+	width: 			max-content;
 	height: 		min-content;
 	display: 		flex;
 	align-items:	center;
     justify-content: center;
-
+    box-shadow: 0px 0px 10px  rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
 }
 .search-box input{
 	color: 			#06283D;
-	font-size: 		20px;
+	font-size: 		15px;
     height: min-content;
-    margin-left:    60px;
+    margin: 10px 5px 10px 30px;
 }

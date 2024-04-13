@@ -12,7 +12,7 @@ const userSchema = new Schema(
     }
 );
 
-module.exports = mongoose.model("useAcount", userSchema); 
+module.exports = mongoose.model("userAcount", userSchema); 
 
 //Requiring this library means requiring a class which is considered as a record from "useraccount"(mogoose save collection lowercased)
 //Understanding the model as a collection of userSchema, this module returns an object based on userSchema and can be save to "useraccount" collection 

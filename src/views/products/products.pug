@@ -2,20 +2,47 @@ extends ../layout/layout.pug
 block content
     title Manage Products
     .container    
+        -var products= products
         .search-box
             label(style="" for="keyword") 
                 b Search item:
             input(style="width:200px" type="text" name="keyword")
         .container-child 
-            each product in products            
-                .productView
-                    img(src=product.productThumpnail, alt="")
-                    h3= product.productName
-                    ul 
-                        li Price:
-                            b= product.productPrice
-                                b $ 
-                    button.addToCart Add to cart
-            else
-                .ProductView 
-                    b There are no values
+    script.
+        const baseProducts = !{JSON.stringify(products)}
+        const searchbox = document.querySelector("input");
+        const productPanel = document.querySelector(".container-child");
+        searchbox.addEventListener('input', findItems)
+        document.addEventListener('DOMContentLoaded',showProduct(baseProducts));
+        function findItems(e){
+           var key = e.target.value;
+           console.log(key);
+           const filteredProducts = baseProducts.filter(product => product.productName.toLowerCase().includes(key));
+           showProduct(filteredProducts)
+        }
+        function showProduct(productsVar){
+            productPanel.innerHTML = '';
+            for(const product of productsVar){
+                var div = document.createElement('div');
+                div.className = "productView";
+                var img = document.createElement('img');
+                img.src = product.productThumpnail;
+                var nameProduct = document.createElement('h3');
+                nameProduct.innerHTML = product.productName;
+                var list = document.createElement('ul');
+                var info1 = document.createElement('li');
+                info1.innerHTML = "Price: <b> " + product.productPrice +" $";
+                var addToCart = document.createElement('a');
+                addToCart.href = "/product/addItem?itemID="+product._id;
+                addToCart.target ="_blank";
+                var addButton = document.createElement('button');
+                addButton.textContent="Add to cart";      
+                addToCart.append(addButton);                                                   
+                list.append(info1);
+                productPanel.appendChild(div);
+                div.appendChild(img);
+                div.appendChild(nameProduct);
+                div.appendChild(list);
+                div.appendChild(addToCart);
+            }
+        }
