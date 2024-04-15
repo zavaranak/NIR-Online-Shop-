@@ -1,3 +1,36 @@
 extends ../admin/adminLayout.pug
 block content
     title Manage Clients
+    .container
+        .search-box
+        label(style="" for="keyword") 
+            b Search client:
+            input(style="margin-left:30px;width:200px" type="text" name="keyword")
+        .container-child
+    script.
+        const clients = !{JSON.stringify(clients)};
+        const searchbox = document.querySelector("input");
+        const clientPanel = document.querySelector(".container-child");
+        searchbox.addEventListener('input', findItems)
+        document.addEventListener('DOMContentLoaded',ShowClient(clients));
+        function findItems(e){
+            var key = e.target.value;
+            console.log(key);
+            const filteredClients = clients.filter(client => client.username.toLowerCase().includes(key));
+            ShowClient(filteredClients);
+        }
+        function ShowClient(varclients){
+            clientPanel.innerHTML = '';
+            for(const client of varclients){
+            var clientview = document.createElement('div');
+            clientview.className="client-view";
+            clientview.innerHTML=`               
+            <h2>Username:<i style="color:#EFB9CB">${client.username}</i></h2>
+            <ul> 
+            <li>FirstName:<i>${client.firstName}</i></li>
+            <li>LastName:<i>${client.lastName}</i></li>
+            <li>Adress:<i>${client.address}</i></li>
+            </ul>`
+            clientPanel.append(clientview);
+            }
+        }

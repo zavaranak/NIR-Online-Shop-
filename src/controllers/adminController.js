@@ -1,13 +1,11 @@
 const express = require("express");
 const accounts = require("../models/UserAccount");
 const products = require("../models/Products");
-
 class AdminController {
   Authenticate = async (userId) => {
-    return (
-      (await accounts.findById(userId).populate("username")).username ===
-      "admin"
-    );
+    const admin = await accounts.findById(userId);
+    const isAdmin = admin.username === "admin";
+    return isAdmin;
   };
   AdminPage = async (req, res) => {
     const isAdmin = await this.Authenticate(req.session.userID);
@@ -15,38 +13,51 @@ class AdminController {
     else res.redirect(303, "/home");
   };
   ManageProducts = async (req, res) => {
-    try {
-      const isAdmin = await this.Authenticate(req.session.userID);
-      if (isAdmin) {
-        await products.find({}).then((products) => {
-          res.render("admin/adminProducts.pug", { products: products });
-        });
-      } else res.redirect(303, "/home");
-    } catch (err) {
-      console.log(err);
-      res.redirect(303, "/home");
-    }
+    const isAdmin = await this.Authenticate(req.session.userID);
+    if (isAdmin) {
+      const items = await products.find({});
+      res.render("admin/adminProducts.pug", { products: items });
+    } else res.redirect(303, "/home");
   };
   ManageClients = async (req, res) => {
     const isAdmin = await this.Authenticate(req.session.userID);
-    res.render("admin/adminClients.pug");
-  }
+    const clients = (await accounts.find({})).filter(
+      (client) => !(client.username === "admin")
+    );
+    res.render("admin/adminClients.pug", { clients: clients });
+  };
   AddNewProduct(req, res) {
     console.log(req.body);
     const product = new products({
       productName: req.body.productname,
       productCode: req.body.productcode,
       productPrice: req.body.productprice,
-      productThumpnail: "/img/" + req.body.productthumpnail,
+      productThumpnail: "/uploadToServer/" + req.file.filename,
     });
     product.save();
     product.productDescription.push(req.body.productdescription);
     res.redirect(303, "/admin/products");
   }
-  EditProductSite(req, res) {
-    products.findById(req.query.productID).then((product) => {
-      res.render("admin/adminEditProduct", { product: product });
-    });
+  async EditProduct(req, res) {
+    const param = req.body;
+    const update = {
+      productName: param.productname,
+      productCode: param.productcode,
+      productprice: param.productprice,
+      productDescription: param.productdescription,
+    };
+    if (req.file) {
+      console.log(req.file.filename);
+      update.productThumpnail = "/uploadToServer/" + req.file.filename;
+    }
+    const item = await products.updateOne({ _id: param.productID }, update);
+    res.redirect(303, "/admin/products");
+  }
+  MulterFunc(req, res) {
+    console.log("Multer");
+    console.log(req.file.filename);
+    console.log(req.file.destination);
+    res.send("done");
   }
 }
 module.exports = new AdminController();

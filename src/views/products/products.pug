@@ -32,17 +32,24 @@ block content
                 var list = document.createElement('ul');
                 var info1 = document.createElement('li');
                 info1.innerHTML = "Price: <b> " + product.productPrice +" $";
-                var addToCart = document.createElement('a');
-                addToCart.href = "/product/addItem?itemID="+product._id;
-                addToCart.target ="_blank";
                 var addButton = document.createElement('button');
-                addButton.textContent="Add to cart";      
-                addToCart.append(addButton);                                                   
+                addButton.type = "submit";
+                addButton.textContent="Add to cart";                                                    
                 list.append(info1);
                 productPanel.appendChild(div);
                 div.appendChild(img);
                 div.appendChild(nameProduct);
                 div.appendChild(list);
-                div.appendChild(addToCart);
+                div.appendChild(addButton);
+                addButton.addEventListener('click',()=>{AddHandler(product._id)})
             }
+        }
+        function AddHandler(id){
+            fetch("/products/addItem",{
+                method:'POST',
+                headers:{
+                    'Content-Type':"application/json"
+                },
+                body:JSON.stringify({itemID:id}),
+            })
         }

@@ -16,6 +16,12 @@ block content
             label(for='address') Adress: 
                 i= userdata.address
             input(style="display:none", type="text" name="address",value=userdata.address)
+            label(for="email") Email: 
+                i= userdata.email 
+            input(style="display:none", type="text", name="email",value=userdata.email)
+            label(for="tel") Phone Number: 
+                i= userdata.tel
+            input(style="display:none", type="tel", name="tel",value=userdata.tel)
             button#editButton(type="button") Edit Profile
             button#saveButton(style="display:none",type="submit") Update Profile
             button#cancelButton(style="display:none",type="button") Cancel

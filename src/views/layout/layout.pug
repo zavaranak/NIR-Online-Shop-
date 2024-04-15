@@ -3,7 +3,7 @@ head
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     link(rel='stylesheet', href='/css/layout.css')    
-    script(src="/script/script.js") 
+    script(src="/script/script.js")
 body 
     .navbar
         .logo
@@ -20,7 +20,7 @@ body
                 b About Us
             a#logIn(href='/myprofile') 
                 b My Profile
-            a(href='/cart')
+            a#cartbox(href='/myprofile/cart')
                 b Cart 
     block content
     title= title

@@ -1,89 +1,130 @@
 extends ../admin/adminLayout.pug
 block content
     title Manage Products
-    .container    
+    .container#cont1    
+        .search-box
+            label(style="" for="keyword") 
+                b Search item:
+                input#input(style="width:200px" type="text" name="keyword")
         .container-child 
-            each product in products            
-                .productView
-                    img(src=product.productThumpnail, alt="")
-                    h3= product.productName
-                    ul 
-                        li Price:
-                            b= product.productPrice
-                                b $ 
-                        li Sale(%):
-                            b= product.productSalex
-                    
-                    button.edit(productID=product._id) Edit Product
-            else
-                .ProductView 
-                    b There are no values 
         button#addProduct Add new product
-    #addProductForm.sign-form(style="display:none;")
-        h2 Add new product
-        form#signInForm(method="post", action='/admin/add-product')
-            label(for='productname') Product Name:
-            input(type='text' name='productname' required='')
-            label(for='productcode') Product Code:
-            input(type='text' name='productcode' required='')
-            div(style="display:flex")
-                label(style="width:200px;self-align:left",for='productprice') Product Price:
-                input(type='number' name='productprice' required='')
-            div(style="display:flex;margin-top:20px;")
-                label(style="width:200px",for='productthumpnail') Product Thumpnail:
-                input(type='file' name='productthumpnail' required='')
-            label(for='productdescription') Product Description:
-            input(style='height:50px',type='text' name='productdescription' required='')
-            button(type='submit') Add Product
-            button#cancelAdd(type='button') Cancel        
-    #editProductForm.sign-form(style="display:none;")
-        button#cancelEdit(type='button') Cancel  
-        //-     h1= "Edit product: " + product.productName
-        //-     h2= heading 
-        //-     form#signInForm(method="post", action='')
-        //-             label(for='productname') Product Name:
-        //-             input(type='text' name='productname' required='' value=product.productName)
-        //-             label(for='productcode') Product Code:
-        //-             input(type='text' name='productcode' required='' value=product.productcode)
-        //-             div(style="display:flex")
-        //-                 label(style="width:200px;self-align:left",for='productprice') Product Price:
-        //-                 input(type='number' name='productprice' required='' value=product.productPrice)
-        //-             div(style="display:flex;margin-top:20px;")
-        //-                 label(style="width:200px",for='productthumpnail') Product Thumpnail:
-        //-                 input(type='file' name='productthumpnail' required='' value = product.productThumpnail)
-        //-             label(for='productdescripttion') Product Description:
-        //-             input(style='height:50px',type='text' name='productdescription' required='' value= product.productDescription)
-        //-             button(type='submit') Add Product
-        //-             button#cancel(type='button') Cancel   
+    .container#cont2(style="display:none")
+        .admin-form
+            form#addProductForm(style="display:none;",method="post", action='/admin/add-product', enctype="multipart/form-data")
+                h2 Add new product
+                label(for='productname') Product Name:
+                input(type='text' name='productname' required='')
+                label(for='productcode') Product Code:
+                input(type='text' name='productcode' required='')
+                div(style="display:flex;justify-content: space-between")
+                    label(style="width:200px;self-align:left",for='productprice') Product Price:
+                    input(type='number' name='productprice' required='')
+                    label(style="width:200px",for='productthumpnail') Product Thumpnail:
+                    input(type='file' name='productthumpnail' accept=".jpg, .jpeg, .png" required='')
+                label(for='productdescription') Product Description:
+                input(type='text' name='productdescription' required='')
+                button(type='submit') Add Product
+                button#cancelAdd(type='button') Cancel    
+    .container#cont3(style="display:none")
+        .admin-form 
+            form#editProductForm(style="display:none;",method="post", action='/admin/edit-product', enctype="multipart/form-data")    
+                input#idProduct(type="text",style="display:none", name="productID")
+                h2 Edit product
+                label(for='productname') Product Name:
+                input#nameEdit(type='text' name='productname' required='')
+                label(for='productcode') Product Code:
+                input#codeEdit(type='text' name='productcode' required='')
+                div(style="display:flex;justify-content: space-between")
+                    label(style="width:200px;self-align:left",for='productprice') Product Price:
+                    input#priceEdit(type='number' name='productprice' required='')
+                    label(style="width:200px",for='productthumpnail') Product Thumpnail:
+                    input#thumpnailEdit(type='file' name='productthumpnail' accept=".jpg, .jpeg, .png")
+                label(for='productdescription') Product Description:
+                input#descriptionEdit(type='text' name='productdescription' required='')
+                button(type='submit') Edit Product
+                button#cancelEdit(type='button') Cancel    
     script.
-        const container = document.querySelector('.container')
+        const products = !{JSON.stringify(products)}
+        const container = document.querySelector('#cont1')
+        const container2 = document.querySelector('#cont2')
+        const container3 = document.querySelector('#cont3')
         const addProductForm = document.querySelector('#addProductForm');
         const addButton = document.querySelector('#addProduct');
         const cancelAddingButton = document.querySelector('#cancelAdd');
         const cancelEditingButton = document.querySelector('#cancelEdit');
-        const editButtons = document.querySelectorAll('.edit');
         const editForm = document.querySelector('#editProductForm');
-        
-        editForm.addEventListener('click',(event)=>event.stopPropagation())
+        const name = document.querySelector('#nameEdit');
+        const code = document.querySelector('#codeEdit');
+        const price = document.querySelector('#priceEdit');
+        const thumpnail = document.querySelector('#thumnailEdit');
+        const description = document.querySelector('#descriptionEdit');
+        const _id = document.querySelector('#idProduct')
+        const productPanel= document.querySelector('.container-child')
+        const searchbox = document.querySelector("#input");
+        searchbox.addEventListener('input', findItems)
+        document.addEventListener('DOMContentLoaded',ShowProduct(products));
         addButton.style.margin="20px";
         addButton.addEventListener('click',()=>{
+            container2.style.display = "flex"
             addProductForm.style.display="flex";
-            container.style.opacity = "30%";
+            container.style.display = "none";
         })
         cancelAddingButton.addEventListener('click',()=>{
             addProductForm.style.display="none";
-            container.style.opacity = "100%";
+            container2.style.display = "none";
+            container.style.display ="flex"
         })
         cancelEditingButton.addEventListener('click',()=>{
             editForm.style.display="none";
-            container.style.opacity = "100%"
+            container3.style.display = "none";
+            container.style.display ="flex"
         })
         for(i=0;i<editButtons.length;i++){
         editButtons[i].addEventListener('click',(event)=>{
-            event.stopPropagation();
+            container3.style.display = "flex"
             editForm.style.display = "flex";
-            container.style.opacity = "30%";
+            container.style.display = "none";
+            const id = event.target.name
+            const product = products.find(product=>product._id===id)
+            _id.value = product._id;
+            name.value = product.productName;
+            code.value = product.productCode;
+            price.value = product.productPrice;
+            description.value = product.productDescription;
+        })}
+        function ShowProduct(varproducts){
+            productPanel.innerHTML='';
+            for(const product of varproducts){
+                productPanel.innerHTML+=`
+                <div class="productView"><img src=${product.productThumpnail} alt="" />
+                <h3>${product.productName}</h3>
+                <ul>
+                    <li>Price:<b>${product.productPrice}<b>$ </b></b>
+                    </li>
+                    <li>Sale(%):<b>${product.productSale}</b></li>
+                </ul><button class="edit" name=${product._id}>Edit Product</button></div>`
+            }
+            const editButtons = productPanel.querySelectorAll(".edit");
+            for(i=0;i<editButtons.length;i++){
+            editButtons[i].addEventListener('click',(event)=>{
+            container3.style.display = "flex"
+            editForm.style.display = "flex";
+            container.style.display = "none";
+            const id = event.target.name
+            const product = products.find(product=>product._id===id)
+            _id.value = product._id;
+            name.value = product.productName;
+            code.value = product.productCode;
+            price.value = product.productPrice;
+            description.value = product.productDescription;
             })}
+        }
+        function findItems(e){
+           var key = e.target.value;
+           console.log(key);
+           const filteredProducts = products.filter(product => product.productName.toLowerCase().includes(key));
+           ShowProduct(filteredProducts)
+        }
 
 
 

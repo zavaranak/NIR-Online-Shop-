@@ -177,13 +177,11 @@ input[type="text"], input[type="password"] {
 }
 
 .admin-form {
-    position:relative;
-    align-self: center;
-    justify-content: center;
     background-color: #EFB9CB;
-    width: 25%;
-    padding: 20px;
-    border-radius: 5px;
+    width: 55%;
+    margin:auto;
+    padding:2%;
+    border: 3px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
@@ -191,7 +189,6 @@ input[type="text"], input[type="password"] {
     text-align: center;
     z-index: 1;
     color:#000000;
-    display:none;
 }
 
 .productView{
@@ -231,4 +228,8 @@ input[type="text"], input[type="password"] {
 	font-size: 		15px;
     height: min-content;
     margin: 10px 5px 10px 30px;
+}
+.client-view{
+    display: flex;
+    margin: 5%;
 }

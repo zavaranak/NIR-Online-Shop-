@@ -1,0 +1,112 @@
+extends ../layout/layout.pug
+block content 
+    title Cart
+
+    .container
+        .sign-form(style="display:none")
+            h1 Order
+            form#orderForm(method="post",action="/myprofile/cart/order")
+                input(type="hidden" name="userID" value=user._id)
+                label 
+                    b=  user.firstName +' '+user.lastName
+                label(for="adress") Address: 
+                    input(type="text" value=user.address name="adress" required='')
+                label(for="adress") Phone: 
+                    input(type="text" value=user.tel name="tel" required='')
+                label(for="email") Email: 
+                    input(type="text" value=user.email name="email" required='')
+                label 
+                    b Items:
+                div(style="display:block;width:100%;text-align:left")
+                    ul#itemList(style="align-self:left")
+                label(style="margin-bottom:10px") Total quantity:   
+                    -var quan=0
+                    each val in quantity
+                        -quan+=parseInt(val)
+                    b= quan
+                label(for="payment") Payment Method:
+                    input(type="text", name="payment", list="methodList" required='')
+                    datalist#methodList
+                        option(value="By Card")
+                        option(value="Cash on delivery")
+                h2 Total Amount:
+                    h2#totalAmount
+                    input#totalAmountInput(type="hidden" name="totalAmount")
+                button#confirm(type='submit') Confirm order
+                button#back(type='button') Back
+        h1= user.firstName +' '+user.lastName
+        h1 Selected Item:
+        #container
+
+    script.
+        const products = !{JSON.stringify(items)}
+        const quantity = !{JSON.stringify(quantity)}
+        const container = document.querySelector('#container')
+        const totalSum = document.querySelector('#totalAmount')
+        const amountInput = document.querySelector('#totalAmountInput')
+        const itemList = document.querySelector('#itemList')
+        const buttonBack = document.querySelector("#back")
+        const buttonConfirm = document.querySelector("#confirm")
+        const orderForm = document.querySelector(".sign-form")
+        let sum = 0;
+        document.addEventListener('DOMContentLoaded',()=>{if(products)ContentHandler(products)})
+        function ShowProduct(varproducts){
+            container.innerHTML = "";
+            sum = 0;
+            for(const product of varproducts){
+                const productQuantity = quantity[product._id]
+                const item = document.createElement('li')
+                item.innerHTML=`
+                <input name="items[]" type="hidden" value=${product._id}></input>
+                <input name="quantity[]" type="hidden" value=${productQuantity}></input>
+                <b>${product.productName} [${productQuantity}] </b>`
+                itemList.append(item)
+                const prd = document.createElement('div')
+                prd.id= product._id;
+                prd.innerHTML=`
+                <h3>Item: ${product.productName}</h3>
+                <b>Quantity: ${productQuantity}</b>
+                <b>| Price for unit: ${product.productPrice}</b><br>
+                <h3>Price: ${productQuantity*product.productPrice}</h3>
+                <button class="remove">Remove item</button>
+                `;
+                container.append(prd);
+                sum+=product.productPrice*quantity[product._id];
+            }
+            container.innerHTML += `
+            <h2>Total: <b class="sum">${sum}</b>$</h2>
+            <button id="buyNow">Buy now</button>`
+            totalSum.innerHTML=`${sum} $`;
+            amountInput.value=sum;
+            container.querySelector('#buyNow').addEventListener('click',()=>{orderForm.style.display="flex"})
+            if(sum==0){
+                container.querySelector('#buyNow').style.display="none";
+            }
+        }
+        function EventHandler(varproducts){
+            const sumInner = container.querySelector(".sum");
+            const remove = container.querySelectorAll('.remove');
+            for( i = 0; i<remove.length;i++){
+            remove[i].addEventListener('click',(event)=>{
+                    const prdID = event.target.parentNode.id;
+                    const product = varproducts.find(product=>product._id===prdID)
+                    varproducts.splice(varproducts.indexOf(product),1)
+                    event.target.parentNode.remove();
+                    ContentHandler(varproducts);
+                    fetch('/myprofile/cart/remove-item',{
+                        method:'POST',
+                        headers:{
+                            'Content-Type':'application/json',
+                        },
+                        body: JSON.stringify({cart:varproducts}),
+                    });
+                })
+            }
+        }
+        function ContentHandler(varproducts){
+            ShowProduct(varproducts);
+            EventHandler(varproducts);
+        }
+        buttonBack.addEventListener('click',()=>{
+            orderForm.style.display="none";
+        })

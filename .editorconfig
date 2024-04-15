@@ -57,9 +57,3 @@ cpp_space_around_assignment_operator=insert
 cpp_space_pointer_reference_alignment=left
 cpp_space_around_ternary_operator=insert
 cpp_wrap_preserve_blocks=one_liners
-{
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
-}

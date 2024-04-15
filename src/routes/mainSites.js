@@ -8,7 +8,7 @@ const AdminSite = require('./adminSite')
 route.get('/home',(req,res)=>res.render('home.pug',{title: "Home Page"}));
 route.get('/news',(req,res)=>res.render("indev",{title: "News"}));
 route.get('/about-us',(req,res)=>res.render("indev",{title: "About us"}));
-route.get('/cart',(req,res)=>res.render("indev",{title: "Cart"}));
+//route.get('/cart',(req,res)=>res.render("indev",{title: "Cart"}));
 route.use('/admin', AdminSite)
 route.use('/myprofile',Myprofile);
 route.use('/products',Products);
