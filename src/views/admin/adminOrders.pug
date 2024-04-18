@@ -1,0 +1,105 @@
+extends ../admin/adminLayout.pug
+block content
+    title Manage Orders
+    .container 
+        .container-child
+    script.
+        const orders = !{JSON.stringify(orders)}
+        const container = document.querySelector('.container-child')
+        document.addEventListener("DOMContentLoaded",()=>{LoadOrder(orders)})
+        function LoadOrder(orders){
+            console.log("Orders:",orders)
+            for(const order of orders){
+                const contact = order.contact
+                const orderview = document.createElement('div')
+                orderview.className = "order-view";
+                orderview.innerHTML =`<h2>Order ${order._id}</h2>`
+                const userpanel = document.createElement('div');
+                const userID = document.createElement('label')
+                userID.for = "userID"
+                userID.textContent ="User:"
+                const userIDValue = document.createElement('input')
+                userIDValue.name  = "userID" 
+                userIDValue.value = order.userID;
+                userIDValue.style.width = "300px"
+                const userTel = document.createElement('label')
+                userTel.for = "tel"
+                userTel.textContent ="Phone Number:"
+                const userTelValue = document.createElement('input')
+                userTelValue.name  = "tel" 
+                userTelValue.value = contact.tel;
+                const userEmail = document.createElement('label')
+                userEmail.for = "email"
+                userEmail.textContent="Email adress:"
+                const userEmailValue = document.createElement('input')
+                userEmailValue.name  = "email" 
+                userEmailValue.value = contact.email;
+                userpanel.style.marginLeft="100px"
+                userpanel.append(userID)
+                userpanel.append(userIDValue)
+                userpanel.append(userTel)
+                userpanel.append(userTelValue)
+                userpanel.append(userEmail)
+                userpanel.append(userEmailValue)
+                orderview.append(userpanel)
+                
+                const itemPanel = document.createElement('div')
+                itemPanel.style.marginLeft="100px"
+                const itemHeading = document.createElement('h3')
+                itemHeading.innerHTML =
+                `Selected items: <br><label>Item code</label> <label style="margin-left:205px">Quantity</label>`
+                itemPanel.append(itemHeading)
+                itemPanel.display="flex"
+                itemPanel.flexDirection="collumn"
+                for(let i=0;i<order.item.length;i++){
+                    const itemList= document.createElement('div')
+                    console.log(order.item[i])
+                    const itemID = document.createElement('input')
+                    itemID.name = "item"
+                    itemID.value = order.item[i].itemID;
+                    itemID.style.width="300px"
+                    const itemQuan = document.createElement('input')
+                    itemQuan.name = "item"
+                    itemQuan.value = order.item[i].quantity;
+                    itemList.append(itemID)
+                    itemList.append(itemQuan)
+                    itemPanel.append(itemList)
+                }
+                const paymentview = document.createElement('div')
+                paymentview.innerHTML="Pay Method:"
+                paymentview.style.marginLeft="100px"
+                const paymethodLabel = document.createElement("label")
+                paymethodLabel.for="paymethod"
+                const paymethod = document.createElement("input")
+                paymethod.name="paymethod"
+                paymethod.value=order.paymentMethod
+                const totalLabel = document.createElement("label")
+                totalLabel.for="totalAmount" 
+                const total = document.createElement("input")
+                total.name="totalAmount"
+                total.value=order.totalAmount +" $"
+                const statePanel = document.createElement("div")
+                const stateLabel = document.createElement("label")
+                const stateValue = document.createElement("input")
+                statePanel.style.marginLeft="100px";
+                stateLabel.for="state"
+                stateLabel.textContent="Order state:"
+                stateValue.name="state"
+                stateValue.value="not set"
+                const buttonConfirm = document.createElement("button")
+                buttonConfirm.type="button"
+                buttonConfirm.textContent="Confirm order"
+                buttonConfirm.addEventListener("click",()=>{stateValue.value="CONFIRMED"})
+                statePanel.append(stateLabel)
+                statePanel.append(stateValue)
+                paymentview.append(paymethodLabel)
+                paymentview.append(paymethod)
+                paymentview.append(totalLabel)
+                paymentview.append(total)
+                orderview.append(itemPanel)
+                orderview.append(paymentview)
+                orderview.append(statePanel)
+                orderview.append(buttonConfirm)
+                container.append(orderview)
+            }
+        }

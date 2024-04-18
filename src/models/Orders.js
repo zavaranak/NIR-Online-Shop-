@@ -11,9 +11,14 @@ const orderSchema = new Schema({
   ],
   userID: { type: String },
   address: { type: String },
+  contact: {
+    tel: { type: String },
+    email: { type: String },
+  },
   paymentMethod: { type: String },
   dateOfIssue: { type: Date },
   totalAmount: { type: Number },
+  state:{type:String,default:"In process"}
 });
 module.exports = mongoose.model("orders", orderSchema);
 

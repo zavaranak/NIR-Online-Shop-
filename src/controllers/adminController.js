@@ -1,6 +1,7 @@
 const express = require("express");
 const accounts = require("../models/UserAccount");
 const products = require("../models/Products");
+const orders = require("../models/Orders");
 class AdminController {
   Authenticate = async (userId) => {
     const admin = await accounts.findById(userId);
@@ -21,10 +22,12 @@ class AdminController {
   };
   ManageClients = async (req, res) => {
     const isAdmin = await this.Authenticate(req.session.userID);
-    const clients = (await accounts.find({})).filter(
-      (client) => !(client.username === "admin")
-    );
-    res.render("admin/adminClients.pug", { clients: clients });
+    if (isAdmin) {
+      const clients = (await accounts.find({})).filter(
+        (client) => !(client.username === "admin")
+      );
+      res.render("admin/adminClients.pug", { clients: clients });
+    } else res.redirect(303, "/home");
   };
   AddNewProduct(req, res) {
     console.log(req.body);
@@ -59,5 +62,13 @@ class AdminController {
     console.log(req.file.destination);
     res.send("done");
   }
+  async ManageOrders(req, res) {
+    const orderRecords = await orders.find({});
+    res.render("admin/adminOrders", { orders: orderRecords });
+  }
+  Analysis(req,res){
+    res.render("indev.pug")
+  }
+
 }
 module.exports = new AdminController();

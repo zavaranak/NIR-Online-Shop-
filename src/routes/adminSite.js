@@ -5,6 +5,8 @@ const upload = require("../config/multerconfig");
 //Routing
 route.get("/products", adminController.ManageProducts);
 route.get("/clients", adminController.ManageClients);
+route.get("/orders", adminController.ManageOrders);
+route.get("/analysis", adminController.Analysis);
 route.post(
   "/add-product",
   upload.single("productthumpnail"),

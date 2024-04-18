@@ -96,6 +96,10 @@ class myProfile {
       userID: info.userID,
       address: info.address,
       item: items,
+      contact:
+      {tel:info.tel,
+      email:info.email}
+      ,
       totalAmount: info.totalAmount,
       dateOfIssue: Date(Date.now()),
       paymentMethod: info.payment,
