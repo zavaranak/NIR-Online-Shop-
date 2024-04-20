@@ -3,6 +3,7 @@ block content
     .log-out 
         form(action="/myprofile/logout", method="get")
             button(type= "submit") Log out
+        button#logout Logout
     .sign-form      
         h1= userdata.username 
         form(action="/myprofile/update-profile", method="post") 
@@ -13,7 +14,7 @@ block content
             label(for="lastName") Last Name: 
                 i= userdata.lastName
             input(style="display:none", type="text" name="lastName",value=userdata.lastName)
-            label(for='address') Adress: 
+            label(for='address') Address: 
                 i= userdata.address
             input(style="display:none", type="text" name="address",value=userdata.address)
             label(for="email") Email: 
@@ -41,4 +42,5 @@ block content
             buttonEdit.style.display="block";
             buttonSave.style.display="none";
             buttonCancel.style.display= "none";
-        })   
+        }) 
+    

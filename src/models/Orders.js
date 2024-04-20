@@ -4,12 +4,13 @@ const Schema = mongoose.Schema;
 const orderSchema = new Schema({
   item: [
     {
-      itemID: { type: String },
+      itemCode: { type: String },
       quantity: { type: Number },
       _id: false,
     },
   ],
   userID: { type: String },
+  username:{type:String},
   address: { type: String },
   contact: {
     tel: { type: String },

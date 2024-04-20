@@ -1,6 +1,6 @@
 extends ../layout/layout.pug
 block content
-    title Manage Products
+    title Products
     .container    
         -var products= products
         .search-box
@@ -44,12 +44,13 @@ block content
                 addButton.addEventListener('click',()=>{AddHandler(product._id)})
             }
         }
-        function AddHandler(id){
-            fetch("/products/addItem",{
+        async function AddHandler(id){
+            await fetch("/products/addItem",{
                 method:'POST',
                 headers:{
                     'Content-Type':"application/json"
                 },
                 body:JSON.stringify({itemID:id}),
-            })
+            }).
+            then(response=>response.json()).then(mes=>alert(mes.mes))
         }

@@ -25,12 +25,38 @@ block content
             var clientview = document.createElement('div');
             clientview.className="client-view";
             clientview.innerHTML=`               
-            <h2>Username:<i style="color:#3066BE">${client.username}</i></h2>
-            <ul> 
-            <li>FirstName:<i>${client.firstName}</i></li>
-            <li>LastName:<i>${client.lastName}</i></li>
-            <li>Adress:<i>${client.address}</i></li>
-            </ul>`
+            <h2 style="width:40%">Username:<i style="color:#3066BE">${client.username}</i></h2>
+            <ul style="width:50%"> 
+            <li>ID:<b> ${client._id}</b></li>
+            <li>FirstName:<b> ${client.firstName}</b></li>
+            <li>LastName:<b> ${client.lastName}</b></li>
+            <li>Adress:<b> ${client.address}</b></li>
+            <li>Email:<b> ${client.email}</b></li>
+            <li>Tel:<b> ${client.tel}</b></li>
+            </ul>
+            <div class="order-view">
+            <button class="ordershow" onclick="ShowOrder('${client._id}')"><h2>ORDERS</h2></button>
+            <ul id='list${client._id}'><ul>
+            </div>
+            `
             clientPanel.append(clientview);
             }
+        }
+        async function ShowOrder(userID){
+            await fetch(`/admin/get-orders?userID=${userID}`,
+            {method:"GET",
+            headers:{
+                'Content-Type':"application/json"
+            }}
+            ).then(response=>{response.json().then(orders=>{
+            console.log(orders)
+            const list = document.querySelector(`#list${userID}`)   
+            list.innerHTML=''
+            for(const order of orders){
+                console.log(order)
+                const orderinlist = document.createElement('li')
+                orderinlist.innerHTML=`${order.totalAmount} $`
+                list.append(orderinlist)
+            }}
+            )})
         }

@@ -3,6 +3,7 @@ const account = require("../models/UserAccount");
 const bcrypt = require("bcrypt");
 const products = require("../models/Products");
 const orders = require("../models/Orders");
+const { now } = require("mongoose");
 class myProfile {
   async UserProfile(req, res) {
     if (req.session.userID) {
@@ -43,6 +44,7 @@ class myProfile {
   }
   async SignUp(req, res) {
     const username = req.body.username;
+    const available = await account.find({ username: username });
     var salt = Math.random() * 10;
     const password = bcrypt.hashSync(req.body.password1, salt);
     const newAccount = new account({
@@ -71,23 +73,23 @@ class myProfile {
         items: items,
         quantity: quantity,
       });
-    }
+    } else res.render('indev.pug',{title:Cart})
+      
   }
   CartRemove(req, res) {
     const items = req.body.cart;
-    let cart = [];
-    for (const item of items) {
-      cart.push(item._id);
-    }
+    const cart = [];
+    cart.push(items);
     req.session.cart = cart;
     req.session.save();
+    res.send("Items removed");
   }
   async Order(req, res) {
     const info = req.body;
     const items = [];
     for (var i = 0; i < info.items.length; i++) {
       const item = {
-        itemID: info.items[i],
+        itemCode: info.items[i],
         quantity: info.quantity[i],
       };
       items.push(item);
@@ -95,11 +97,9 @@ class myProfile {
     const neworder = new orders({
       userID: info.userID,
       address: info.address,
+      username: info.username,
       item: items,
-      contact:
-      {tel:info.tel,
-      email:info.email}
-      ,
+      contact: { tel: info.tel, email: info.email },
       totalAmount: info.totalAmount,
       dateOfIssue: Date(Date.now()),
       paymentMethod: info.payment,

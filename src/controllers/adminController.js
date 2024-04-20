@@ -44,6 +44,7 @@ class AdminController {
   async EditProduct(req, res) {
     const param = req.body;
     const update = {
+      productSale: param.productsale,
       productName: param.productname,
       productCode: param.productcode,
       productprice: param.productprice,
@@ -66,9 +67,24 @@ class AdminController {
     const orderRecords = await orders.find({});
     res.render("admin/adminOrders", { orders: orderRecords });
   }
-  Analysis(req,res){
-    res.render("indev.pug")
+  async ConfirmState(req, res) {
+    const order = await orders.findById(req.body.orderID);
+    order.state = "Confirmed";
+    order.save();
+    res.send({ newstate: "Confirmed" });
   }
-
+  async CancelState(req, res) {
+    const order = await orders.findById(req.body.orderID);
+    order.state = "Canceled";
+    order.save();
+    res.send({ newstate: "Canceled" });
+  }
+  async GetOrders(req, res) {
+    const ordersByFilter = await orders.find({ userID: req.query.userID });
+    res.json(ordersByFilter);
+  }
+  Analysis(req, res) {
+    res.render("indev.pug");
+  }
 }
 module.exports = new AdminController();

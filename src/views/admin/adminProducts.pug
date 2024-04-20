@@ -34,11 +34,13 @@ block content
                 input#nameEdit(type='text' name='productname' required='')
                 label(for='productcode') Product Code:
                 input#codeEdit(type='text' name='productcode' required='')
-                div(style="display:flex;justify-content: space-between")
-                    label(style="width:200px;self-align:left",for='productprice') Product Price:
-                    input#priceEdit(type='number' name='productprice' required='')
-                    label(style="width:200px",for='productthumpnail') Product Thumpnail:
-                    input#thumpnailEdit(type='file' name='productthumpnail' accept=".jpg, .jpeg, .png")
+                div(style="display:flex;justify-content: space-between;margin-bottom:50px")
+                    label(style="width:120px;self-align:left",for='productprice') Product Price:
+                    input#priceEdit(style="width:120px" type='number' name='productprice' required='')
+                    label(style="width:120px;",for='productprice') Sale %:
+                    input#priceEdit(style="width:120px" type='number' name='productsale' required='')
+                    label(style="width:120px",for='productthumpnail') Product Thumpnail:
+                    input#thumpnailEdit(style="width:120px" type='file' name='productthumpnail' accept=".jpg, .jpeg, .png")
                 label(for='productdescription') Product Description:
                 input#descriptionEdit(type='text' name='productdescription' required='')
                 button(type='submit') Edit Product
@@ -101,8 +103,9 @@ block content
                 <ul>
                     <li>Price:<b>${product.productPrice}<b>$ </b></b>
                     </li>
-                    <li>Sale(%):<b>${product.productSale}</b></li>
-                </ul><button class="edit" name=${product._id}>Edit Product</button></div>`
+                    <li>Sale:<b>${product.productSale} %</b></li>
+                </ul>
+                <button class="edit" name=${product._id}>Edit Product</button></div>`
             }
             const editButtons = productPanel.querySelectorAll(".edit");
             for(i=0;i<editButtons.length;i++){

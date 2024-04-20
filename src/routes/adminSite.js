@@ -17,6 +17,9 @@ route.post(
   upload.single("productthumpnail"),
   adminController.EditProduct
 );
+route.post("/confirm-order",adminController.ConfirmState)
+route.post("/cancel-order",adminController.CancelState)
+route.get("/get-orders",adminController.GetOrders)
 route.post("/multertest", upload.single(), adminController.MulterFunc);
 route.get("/", adminController.AdminPage);
 //Export module

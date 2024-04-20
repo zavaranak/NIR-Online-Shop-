@@ -7,6 +7,7 @@ block content
             h1 Order
             form#orderForm(method="post",action="/myprofile/cart/order")
                 input(type="hidden" name="userID" value=user._id)
+                input(type="hidden" name="username" value=user.username)
                 label 
                     b=  user.firstName +' '+user.lastName
                 label(for="adress") Address: 
@@ -57,7 +58,7 @@ block content
                 const productQuantity = quantity[product._id]
                 const item = document.createElement('li')
                 item.innerHTML=`
-                <input name="items[]" type="hidden" value=${product._id}></input>
+                <input name="items[]" type="hidden" value=${product.productCode}></input>
                 <input name="quantity[]" type="hidden" value=${productQuantity}></input>
                 <b>${product.productName} [${productQuantity}] </b>`
                 itemList.append(item)
@@ -93,12 +94,15 @@ block content
                     varproducts.splice(varproducts.indexOf(product),1)
                     event.target.parentNode.remove();
                     ContentHandler(varproducts);
-                    fetch('/myprofile/cart/remove-item',{
-                        method:'POST',
-                        headers:{
-                            'Content-Type':'application/json',
-                        },
-                        body: JSON.stringify({cart:varproducts}),
+                    const cartlist = varproducts.map(product=>product._id)
+                    console.log(cartlist)
+                    $.ajax({
+                    method: "post",
+                    url: "/myprofile/cart/remove-item",
+                    data: {cart:varproducts},
+                    success: function(mess){
+                        console.log(mess);
+                    }
                     });
                 })
             }

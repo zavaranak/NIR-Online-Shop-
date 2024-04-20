@@ -11,6 +11,7 @@ class productController {
     const item = req.body.itemID;
     req.session.cart.push(item);
     req.session.save();
+    res.json({mes:"Item added"})
   };
 }
 module.exports = new productController();

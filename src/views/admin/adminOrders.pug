@@ -17,11 +17,18 @@ block content
                 const userpanel = document.createElement('div');
                 const userID = document.createElement('label')
                 userID.for = "userID"
-                userID.textContent ="User:"
+                userID.textContent ="UserID:"
                 const userIDValue = document.createElement('input')
                 userIDValue.name  = "userID" 
                 userIDValue.value = order.userID;
                 userIDValue.style.width = "300px"
+                const username = document.createElement('label')
+                username.for = "username"
+                username.textContent ="Username:"
+                const usernameValue = document.createElement('input')
+                usernameValue.name  = "username" 
+                usernameValue.value = order.username;
+                usernameValue.style.width = "200px"
                 const userTel = document.createElement('label')
                 userTel.for = "tel"
                 userTel.textContent ="Phone Number:"
@@ -37,6 +44,8 @@ block content
                 userpanel.style.marginLeft="100px"
                 userpanel.append(userID)
                 userpanel.append(userIDValue)
+                userpanel.append(username)
+                userpanel.append(usernameValue)
                 userpanel.append(userTel)
                 userpanel.append(userTelValue)
                 userpanel.append(userEmail)
@@ -56,7 +65,7 @@ block content
                     console.log(order.item[i])
                     const itemID = document.createElement('input')
                     itemID.name = "item"
-                    itemID.value = order.item[i].itemID;
+                    itemID.value = order.item[i].itemCode;
                     itemID.style.width="300px"
                     const itemQuan = document.createElement('input')
                     itemQuan.name = "item"
@@ -85,11 +94,17 @@ block content
                 stateLabel.for="state"
                 stateLabel.textContent="Order state:"
                 stateValue.name="state"
-                stateValue.value="not set"
+                stateValue.value=order.state
                 const buttonConfirm = document.createElement("button")
                 buttonConfirm.type="button"
                 buttonConfirm.textContent="Confirm order"
-                buttonConfirm.addEventListener("click",()=>{stateValue.value="CONFIRMED"})
+                buttonConfirm.addEventListener("click",()=>{if(!(stateValue.value==="Confirmed")){confirmOrder(order._id)
+                stateValue.value="Confirmed"}})
+                const buttonCancel = document.createElement("button")
+                buttonCancel.type="button"
+                buttonCancel.textContent="Cancel order"
+                buttonCancel.addEventListener("click",()=>{if(!(stateValue.value==="Canceled")){cancelOrder(order._id)
+                stateValue.value="Canceled"}})
                 statePanel.append(stateLabel)
                 statePanel.append(stateValue)
                 paymentview.append(paymethodLabel)
@@ -100,6 +115,25 @@ block content
                 orderview.append(paymentview)
                 orderview.append(statePanel)
                 orderview.append(buttonConfirm)
+                orderview.append(buttonCancel)
                 container.append(orderview)
             }
+        }
+        function confirmOrder(orderID){
+            fetch("/admin/confirm-order",{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({orderID:orderID}),
+            }).then(response=>response.json().then(response=>alert(response.newstate)))
+        }
+        function cancelOrder(orderID){
+            fetch("/admin/cancel-order",{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({orderID:orderID}),
+            }).then(response=>response.json().then(response=>alert(response.newstate)))
         }
