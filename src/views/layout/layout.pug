@@ -4,25 +4,24 @@ head
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     link(rel='stylesheet', href='/css/layout.css')    
     script(src="/script/script.js")
-    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js") 
 body 
     .navbar
         .logo
             img(class='logoImg', src='/img/logo.png', alt='brandLogo')
         div
             a(href='/home') 
-                h1 Brand Name 
+                h1  Имя бренда
         .navbar-items
             a(href='/products') 
-                b Products
+                b Продукты
             a(href='/news') 
-                b News
+                b Новости
             a(href='/about-us') 
-                b About Us
+                b О Нас
             a#logIn(href='/myprofile') 
-                b My Profile
+                b Личный кабинет
             a#cartbox(href='/myprofile/cart')
-                b Cart 
+                b Корзина 
     block content
     title= title
 

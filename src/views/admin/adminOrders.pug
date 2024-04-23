@@ -1,6 +1,6 @@
 extends ../admin/adminLayout.pug
 block content
-    title Manage Orders
+    title Управление заказами
     .container 
         .container-child
     script.
@@ -8,36 +8,36 @@ block content
         const container = document.querySelector('.container-child')
         document.addEventListener("DOMContentLoaded",()=>{LoadOrder(orders)})
         function LoadOrder(orders){
-            console.log("Orders:",orders)
+            console.log("Заказы:",orders)
             for(const order of orders){
                 const contact = order.contact
                 const orderview = document.createElement('div')
                 orderview.className = "order-view";
-                orderview.innerHTML =`<h2>Order ${order._id}</h2>`
+                orderview.innerHTML =`<h2>Заказ ${order._id}</h2>`
                 const userpanel = document.createElement('div');
                 const userID = document.createElement('label')
                 userID.for = "userID"
-                userID.textContent ="UserID:"
+                userID.textContent ="ID Пользователя:"
                 const userIDValue = document.createElement('input')
                 userIDValue.name  = "userID" 
                 userIDValue.value = order.userID;
                 userIDValue.style.width = "300px"
                 const username = document.createElement('label')
                 username.for = "username"
-                username.textContent ="Username:"
+                username.textContent ="Логин:"
                 const usernameValue = document.createElement('input')
                 usernameValue.name  = "username" 
                 usernameValue.value = order.username;
                 usernameValue.style.width = "200px"
                 const userTel = document.createElement('label')
                 userTel.for = "tel"
-                userTel.textContent ="Phone Number:"
+                userTel.textContent ="Телефон:"
                 const userTelValue = document.createElement('input')
                 userTelValue.name  = "tel" 
                 userTelValue.value = contact.tel;
                 const userEmail = document.createElement('label')
                 userEmail.for = "email"
-                userEmail.textContent="Email adress:"
+                userEmail.textContent="Почта:"
                 const userEmailValue = document.createElement('input')
                 userEmailValue.name  = "email" 
                 userEmailValue.value = contact.email;
@@ -56,7 +56,7 @@ block content
                 itemPanel.style.marginLeft="100px"
                 const itemHeading = document.createElement('h3')
                 itemHeading.innerHTML =
-                `Selected items: <br><label>Item code</label> <label style="margin-left:205px">Quantity</label>`
+                `Выбранные продукты: <br><label>Продукт код</label> <label style="margin-left:205px">Количество</label>`
                 itemPanel.append(itemHeading)
                 itemPanel.display="flex"
                 itemPanel.flexDirection="collumn"
@@ -75,7 +75,7 @@ block content
                     itemPanel.append(itemList)
                 }
                 const paymentview = document.createElement('div')
-                paymentview.innerHTML="Pay Method:"
+                paymentview.innerHTML="Способ оплаты:"
                 paymentview.style.marginLeft="100px"
                 const paymethodLabel = document.createElement("label")
                 paymethodLabel.for="paymethod"
@@ -92,19 +92,19 @@ block content
                 const stateValue = document.createElement("input")
                 statePanel.style.marginLeft="100px";
                 stateLabel.for="state"
-                stateLabel.textContent="Order state:"
+                stateLabel.textContent="Состояние заказа:"
                 stateValue.name="state"
                 stateValue.value=order.state
                 const buttonConfirm = document.createElement("button")
                 buttonConfirm.type="button"
-                buttonConfirm.textContent="Confirm order"
-                buttonConfirm.addEventListener("click",()=>{if(!(stateValue.value==="Confirmed")){confirmOrder(order._id)
-                stateValue.value="Confirmed"}})
+                buttonConfirm.textContent="Утвердить"
+                buttonConfirm.addEventListener("click",()=>{if(!(stateValue.value==="Утвержден")){confirmOrder(order._id)
+                stateValue.value="Утвержден"}})
                 const buttonCancel = document.createElement("button")
                 buttonCancel.type="button"
-                buttonCancel.textContent="Cancel order"
-                buttonCancel.addEventListener("click",()=>{if(!(stateValue.value==="Canceled")){cancelOrder(order._id)
-                stateValue.value="Canceled"}})
+                buttonCancel.textContent="Отменить"
+                buttonCancel.addEventListener("click",()=>{if(!(stateValue.value==="Отмен")){cancelOrder(order._id)
+                stateValue.value="Отмен"}})
                 statePanel.append(stateLabel)
                 statePanel.append(stateValue)
                 paymentview.append(paymethodLabel)

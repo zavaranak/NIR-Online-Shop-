@@ -1,26 +1,26 @@
 extends ../layout/layout.pug
 block content
     #login-form.sign-form
-        h2 Log in
+        h2 Войти
         form#signInForm(method="post", action='/myprofile/login')
-            label(for='username') Username:
+            label(for='username') Логин:
             input#username-login(type='text' name='username' required='')
-            label(for='password') Password:
+            label(for='password') Пароль:
             input#password-login(type='password' name='password' required='')
             i(style='color:darkred')= message
-            button(type='submit') Log in
-            button#showSignUp(type='button',style='opacity:20%') Sign up         
+            button(type='submit') Войти
+            button#showSignUp(type='button',style='opacity:20%') Зарегистрировать       
 
     #signup-form.sign-form(style='display:none;',onsubmit=`return checkPasswords()`)
-        h2 Sign up
+        h2 Зарегистрировать
         form#signInForm(method="post", action='/myprofile/signup')
-            label(for='username') Enter username:
+            label(for='username') Логин:
             input#username-signup(type='text' name='username' required='')
-            label(for='password') Enter Password:
+            label(for='password') Пароль:
             input#password1(type='password' name='password1' required='')
-            label(for='password') Enter password again:
+            label(for='password') Пароль повторить:
             input#password2(type='password' name='password2' required='')
-            button(type='submit') Sign Up
+            button(type='submit') Зарегистрировать
             button#showLogIn(type='button',style='opacity:20%') Log in  
 
     script(type='text/javascript').
@@ -40,7 +40,7 @@ block content
         var password1 = document.getElementById('password1').value;
         var password2 = document.getElementById('password2').value;
         if (password1 != password2) {
-            alert('The passwords does not match. Please try again.');
+            alert('Логин или пароль не правильный.');
             return false; // Prevent form submission
         }
         return true; // Allow form submission

@@ -43,11 +43,12 @@ class AdminController {
   }
   async EditProduct(req, res) {
     const param = req.body;
+    console.log(param)
     const update = {
       productSale: param.productsale,
       productName: param.productname,
       productCode: param.productcode,
-      productprice: param.productprice,
+      productPrice: param.productprice,
       productDescription: param.productdescription,
     };
     if (req.file) {

@@ -4,39 +4,39 @@ block content
 
     .container
         .sign-form(style="display:none")
-            h1 Order
+            h1 Новый заказ
             form#orderForm(method="post",action="/myprofile/cart/order")
                 input(type="hidden" name="userID" value=user._id)
                 input(type="hidden" name="username" value=user.username)
                 label 
                     b=  user.firstName +' '+user.lastName
-                label(for="adress") Address: 
+                label(for="adress") Адрес: 
                     input(type="text" value=user.address name="adress" required='')
-                label(for="adress") Phone: 
+                label(for="adress") Телефон: 
                     input(type="text" value=user.tel name="tel" required='')
-                label(for="email") Email: 
+                label(for="email") Почта: 
                     input(type="text" value=user.email name="email" required='')
                 label 
-                    b Items:
+                    b Продукты:
                 div(style="display:block;width:100%;text-align:left")
                     ul#itemList(style="align-self:left")
-                label(style="margin-bottom:10px") Total quantity:   
+                label(style="margin-bottom:10px") Количество продуктов:   
                     -var quan=0
                     each val in quantity
                         -quan+=parseInt(val)
                     b= quan
-                label(for="payment") Payment Method:
+                label(for="payment") Способ оплаты:
                     input(type="text", name="payment", list="methodList" required='')
                     datalist#methodList
                         option(value="By Card")
                         option(value="Cash on delivery")
-                h2 Total Amount:
+                h2 Сумма
                     h2#totalAmount
                     input#totalAmountInput(type="hidden" name="totalAmount")
-                button#confirm(type='submit') Confirm order
-                button#back(type='button') Back
+                button#confirm(type='submit') Потвердить заказ
+                button#back(type='button') Назад
         h1= user.firstName +' '+user.lastName
-        h1 Selected Item:
+        h1 Выбранные продукты:
         #container
 
     script.
@@ -65,18 +65,18 @@ block content
                 const prd = document.createElement('div')
                 prd.id= product._id;
                 prd.innerHTML=`
-                <h3>Item: ${product.productName}</h3>
-                <b>Quantity: ${productQuantity}</b>
-                <b>| Price for unit: ${product.productPrice}</b><br>
-                <h3>Price: ${productQuantity*product.productPrice}</h3>
-                <button class="remove">Remove item</button>
+                <h3>Продукт: ${product.productName}</h3>
+                <b>Количество: ${productQuantity}</b>
+                <b>| Цена за едиицу: ${product.productPrice}</b><br>
+                <h3>Цена: ${productQuantity*product.productPrice}</h3>
+                <button class="remove">Удалить продукт</button>
                 `;
                 container.append(prd);
                 sum+=product.productPrice*quantity[product._id];
             }
             container.innerHTML += `
-            <h2>Total: <b class="sum">${sum}</b>$</h2>
-            <button id="buyNow">Buy now</button>`
+            <h2>Сумма: <b class="sum">${sum}</b>$</h2>
+            <button id="buyNow">Купить</button>`
             totalSum.innerHTML=`${sum} $`;
             amountInput.value=sum;
             container.querySelector('#buyNow').addEventListener('click',()=>{orderForm.style.display="flex"})
