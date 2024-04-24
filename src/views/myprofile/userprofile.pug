@@ -3,28 +3,29 @@ block content
     .log-out 
         form(action="/myprofile/logout", method="get")
             button(type= "submit") Log out
+        button#logout Logout
     .sign-form      
         h1= userdata.username 
         form(action="/myprofile/update-profile", method="post") 
             input(type="text",style="display:none", name="userID", value=userdata._id)
-            label(for="firstName") First Name: 
+            label(for="firstName") Имя: 
                 i= userdata.firstName
             input(style="display:none", type="text", name="firstName",value=userdata.firstName)
-            label(for="lastName") Last Name: 
+            label(for="lastName") Фамилия: 
                 i= userdata.lastName
             input(style="display:none", type="text" name="lastName",value=userdata.lastName)
-            label(for='address') Address: 
+            label(for='address') Адрес: 
                 i= userdata.address
             input(style="display:none", type="text" name="address",value=userdata.address)
-            label(for="email") Email: 
+            label(for="email") Почта: 
                 i= userdata.email 
             input(style="display:none", type="text", name="email",value=userdata.email)
-            label(for="tel") Phone Number: 
+            label(for="tel") Телефон: 
                 i= userdata.tel
             input(style="display:none", type="tel", name="tel",value=userdata.tel)
-            button#editButton(type="button") Edit Profile
-            button#saveButton(style="display:none",type="submit") Update Profile
-            button#cancelButton(style="display:none",type="button") Cancel
+            button#editButton(type="button") Обновить данные
+            button#saveButton(style="display:none",type="submit") Сохранить
+            button#cancelButton(style="display:none",type="button") Назад
     script.
         const buttonSave = document.querySelector('#saveButton');
         const buttonEdit = document.querySelector('#editButton');

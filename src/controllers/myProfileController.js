@@ -31,6 +31,13 @@ class myProfile {
     const password = req.body.password;
     const username = req.body.username;
     const user = await account.findOne({ username: username });
+    if (!user) {
+      res.render("myprofile/login", {
+        title: "Войти",
+        message: "Не правильный логин или пароль",
+      });
+      return;
+    }
     if (bcrypt.compareSync(password, user.password)) {
       req.session.userID = user._id;
       req.session.cart = [];

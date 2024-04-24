@@ -1,10 +1,10 @@
 extends ../admin/adminLayout.pug
 block content
-    title Manage Clients
+    title Управление клиентами
     .container
         .search-box
         label(style="" for="keyword") 
-            b Search client:
+            b Поиск клиентов по логинам:
             input(style="margin-left:30px;width:200px" type="text" name="keyword")
         .container-child
     script.
@@ -25,17 +25,17 @@ block content
             var clientview = document.createElement('div');
             clientview.className="client-view";
             clientview.innerHTML=`               
-            <h2 style="width:40%">Username:<i style="color:#3066BE">${client.username}</i></h2>
+            <h2 style="width:40%">Логин:<i style="color:#3066BE">${client.username}</i></h2>
             <ul style="width:50%"> 
             <li>ID:<b> ${client._id}</b></li>
-            <li>FirstName:<b> ${client.firstName}</b></li>
-            <li>LastName:<b> ${client.lastName}</b></li>
-            <li>Adress:<b> ${client.address}</b></li>
-            <li>Email:<b> ${client.email}</b></li>
-            <li>Tel:<b> ${client.tel}</b></li>
+            <li>Имя:<b> ${client.firstName}</b></li>
+            <li>Фамилия:<b> ${client.lastName}</b></li>
+            <li>Адрес:<b> ${client.address}</b></li>
+            <li>Почта:<b> ${client.email}</b></li>
+            <li>Телефон:<b> ${client.tel}</b></li>
             </ul>
             <div class="order-view">
-            <button class="ordershow" onclick="ShowOrder('${client._id}')"><h2>ORDERS</h2></button>
+            <button class="ordershow" onclick="ShowOrder('${client._id}')"><h2>ЗАКАЗЫ</h2></button>
             <ul id='list${client._id}'><ul>
             </div>
             `

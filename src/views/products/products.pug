@@ -1,11 +1,11 @@
 extends ../layout/layout.pug
 block content
-    title Products
+    title Продукты
     .container    
         -var products= products
         .search-box
             label(style="" for="keyword") 
-                b Search item:
+                b Поиск по именам:
             input(style="width:200px" type="text" name="keyword")
         .container-child 
     script.
@@ -31,10 +31,10 @@ block content
                 nameProduct.innerHTML = product.productName;
                 var list = document.createElement('ul');
                 var info1 = document.createElement('li');
-                info1.innerHTML = "Price: <b> " + product.productPrice +" $";
+                info1.innerHTML = "Цена: <b> " + product.productPrice*(100-product.productSale)/100 +" $";
                 var addButton = document.createElement('button');
                 addButton.type = "submit";
-                addButton.textContent="Add to cart";                                                    
+                addButton.textContent="Добавить в корзину";                                                    
                 list.append(info1);
                 productPanel.appendChild(div);
                 div.appendChild(img);
