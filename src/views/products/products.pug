@@ -31,11 +31,15 @@ block content
                 nameProduct.innerHTML = product.productName;
                 var list = document.createElement('ul');
                 var info1 = document.createElement('li');
-                info1.innerHTML = "Цена: <b> " + product.productPrice*(100-product.productSale)/100 +" $";
+                var info2 = document.createElement('li');
+                info1.innerHTML = 
+                "Цена: <b> " + product.productPrice +" $"
+                info2.innerHTML ="Цена со скидкой <b>"+product.productPrice*(100-product.productSale)/100 +"$";
                 var addButton = document.createElement('button');
                 addButton.type = "submit";
                 addButton.textContent="Добавить в корзину";                                                    
                 list.append(info1);
+                list.append(info2);
                 productPanel.appendChild(div);
                 div.appendChild(img);
                 div.appendChild(nameProduct);

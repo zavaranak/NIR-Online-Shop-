@@ -10,8 +10,8 @@ const productSchema = new Schema({
   productSale: { type: Number },
   productImages: { type: [String] },
   rating:{type:Number},
-  cartIndex:{type:Number},
-  orderIndex:{type:Number},
+  cartIndex:{type:Number,default: 0},
+  orderIndex:{type:Number,default: 0},
 });
 module.exports = mongoose.model("products", productSchema);
 

@@ -1,13 +1,16 @@
 extends ../admin/adminLayout.pug
 block content
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js" integrity="sha512-L0Shl7nXXzIlBSUUPpxrokqq4ojqgZFQczTYlGjzONGTDAcLremjwaWv5A+EDLnxhQzY5xUZPWLOLqYRkY0Cbw==" crossorigin="anonymous" referrerpolicy="no-referrer")
     title Администратор
     .container
-        button#NewOrder
-            //- h1 Check Orders
+        a(href='/admin/orders') 
             h1 Управление заказами
-        button
-            h1 Редактировать Новости
-        button
+        a(href='/admin/products') 
             h1 Управление продуктами
-        button
+        a(href='/admin/clients') 
             h1 Список склиентов
+        a(href='/admin/analysis') 
+            h1 Анализ
+        a
+            h1 Редактировать Новости
+        

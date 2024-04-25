@@ -110,9 +110,11 @@ class myProfile {
       dateOfIssue: Date(Date.now()),
       paymentMethod: info.payment,
     });
-    const productsUpdate = await products.find({productCode:info.itemCode})
-    console.log(productsUpdate);
     await neworder.save();
+    for (var i = 0; i < info.items.length; i++)
+    {
+      await products.updateOne({productCode:info.items[i]},{$inc:{orderIndex:info.quantity[i]}})
+    }
     req.session.cart = [];
     res.redirect(303, "/myprofile/cart");
   }
