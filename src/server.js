@@ -7,8 +7,9 @@ const route = require("./routes/route");
 const pug = require("pug");
 const db = require("./config/dbconfig");
 const session = require("./config/sessionManagement");
-const http = require('http');
+const http = require("http");
 const server = http.createServer(app);
+const nodemon = require("nodemon");
 //const ws = require('ws'); Maybe for chatbox in the future
 //Connect to database
 db.connect(process.env.URI_MONGODB);
@@ -16,7 +17,7 @@ db.connect(process.env.URI_MONGODB);
 const PORT = 3000;
 //Set app: static file, view engine, views path, json, urlencoded
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static("src/assets"));

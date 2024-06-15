@@ -1,0 +1,53 @@
+extends ../admin/adminLayout.pug
+block content
+    head 
+        title Анализ
+        script(src="https://cdn.jsdelivr.net/npm/chart.js")
+    body
+        .container
+            h1 Анализ бизнеса
+            canvas#myChart(style="width:100%;height:500px")
+        script.
+            const baseProducts = !{JSON.stringify(products)}
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const prdName=[];
+            const prdCartIndex=[];
+            const prdOrderIndex=[];
+            for(const prd of baseProducts){
+                prdName.push(prd.productCode)
+                prdCartIndex.push(prd.cartIndex)
+                prdOrderIndex.push(prd.orderIndex)
+            }
+            const myChart = new Chart(ctx, {
+                type: 'bar', // Loại biểu đồ: line, bar, pie, etc.
+                data: {
+                    labels: prdName,
+                    datasets: [{
+                        label: 'Добавленные в корзину',
+                        data: prdCartIndex, // Dữ liệu cho biểu đồ
+                        backgroundColor: [
+                            'rgba(32, 210, 185, 0.2)',
+                            // ... thêm các màu cho từng phần tử
+                        ],
+                        borderColor: [
+                            'rgba(32, 210, 185, 1)',
+                            // ... thêm viền màu cho từng phần tử
+                        ],
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Купленные',
+                        data: prdOrderIndex, // Dữ liệu cho biểu đồ
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            // ... thêm các màu cho từng phần tử
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            // ... thêm viền màu cho từng phần tử
+                        ],
+                        borderWidth: 1
+                    }]
+                }
+                
+            });

@@ -43,7 +43,7 @@ class AdminController {
   }
   async EditProduct(req, res) {
     const param = req.body;
-    console.log(param)
+    console.log(param);
     const update = {
       productSale: param.productsale,
       productName: param.productname,
@@ -84,8 +84,9 @@ class AdminController {
     const ordersByFilter = await orders.find({ userID: req.query.userID });
     res.json(ordersByFilter);
   }
-  Analysis(req, res) {
-    res.render("indev.pug");
+  async Analysis(req, res) {
+    const productsVar = await products.find({});
+    res.render("admin/adminAnalysis.pug",{products:productsVar});
   }
 }
 module.exports = new AdminController();

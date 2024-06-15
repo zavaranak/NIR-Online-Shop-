@@ -3,7 +3,6 @@ const account = require("../models/UserAccount");
 const bcrypt = require("bcrypt");
 const products = require("../models/Products");
 const orders = require("../models/Orders");
-const { now } = require("mongoose");
 class myProfile {
   async UserProfile(req, res) {
     if (req.session.userID) {
@@ -80,8 +79,7 @@ class myProfile {
         items: items,
         quantity: quantity,
       });
-    } else res.render('indev.pug',{title:Cart})
-      
+    } else res.render("indev.pug", { title: Cart });
   }
   CartRemove(req, res) {
     const items = req.body.cart;
@@ -112,6 +110,12 @@ class myProfile {
       paymentMethod: info.payment,
     });
     await neworder.save();
+    for (var i = 0; i < info.items.length; i++) {
+      await products.updateOne(
+        { productCode: info.items[i] },
+        { $inc: { orderIndex: info.quantity[i] } }
+      );
+    }
     req.session.cart = [];
     res.redirect(303, "/myprofile/cart");
   }

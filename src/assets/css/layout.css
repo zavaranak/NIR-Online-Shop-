@@ -71,6 +71,7 @@ li{
 .navbar-items a{
     margin:2%;
     box-sizing: border-box;
+    border-bottom: #fffbff solid 3px;
 }
 .navbar-items a:hover{
     border: #D0D0D0 solid 5px;
@@ -107,6 +108,10 @@ li{
     font: 1.2em;
     justify-content: center;
     background-color: #ececec;
+}
+.container a{
+    text-decoration: none;
+    width: max-content;
 }
 .contaier-child{
     display:flex;
